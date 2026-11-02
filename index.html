@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#F2F2F7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="MyGymPlane：推拉分化每周四练，组级计时、自动推荐重量、B站动作视频、进步曲线与科学饮水。苹果风手机端。">
+  <title>MyGymPlane · 我的健身计划</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部安全区占位（iOS 刘海） -->
+  <div class="statusbar-space"></div>
+
+  <main class="app" id="app">
+
+    <!-- ============ 今天 ============ -->
+    <section class="page active" id="page-home">
+      <div class="page-head">
+        <h1 class="large-title">今天</h1>
+        <p class="head-date" id="head-date"></p>
+      </div>
+
+      <!-- 今日训练卡 -->
+      <div class="hero-card" id="today-card">
+        <div class="hero-top">
+          <span class="hero-label" id="today-label">今日训练</span>
+          <span class="hero-status" id="today-done"></span>
+        </div>
+        <h2 class="hero-title" id="today-name">—</h2>
+        <p class="hero-sub" id="today-sub">—</p>
+        <button class="btn-ios primary big" id="btn-start" style="display:none;">开始训练</button>
+        <button class="btn-ios big" id="btn-start-rest" style="display:none;">今天休息 · 可自由练</button>
+      </div>
+
+      <!-- 本周安排 -->
+      <div class="section-title">本周安排</div>
+      <div class="group-card" id="home-week"></div>
+
+      <!-- 训练概览 -->
+      <div class="section-title">训练概览</div>
+      <div class="group-card">
+        <div class="stat-row" id="home-overview"></div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-title">核心执行原则</div>
+        <div class="tip-line"><b>训练</b>：先练稳再渐进；同一动作先加次数、再加重量</div>
+        <div class="tip-line"><b>饮食</b>：蛋白 110–135 g/天，先连续吃够两周再按体重调</div>
+        <div class="tip-line"><b>恢复</b>：睡眠 7–9 小时，肌肉在休息时长</div>
+      </div>
+    </section>
+
+    <!-- ============ 计划 ============ -->
+    <section class="page" id="page-plan">
+      <div class="page-head">
+        <h1 class="large-title">计划</h1>
+        <p class="head-sub">推拉分化 · 每周四练 · 每个重点肌群 2 次/周</p>
+      </div>
+
+      <div class="seg" id="plan-seg"></div>
+      <div class="group-card" id="plan-detail"></div>
+
+      <div class="section-title">全年三阶段</div>
+      <div class="group-card" id="stage-list"></div>
+
+      <div class="section-title">起步期进阶细节</div>
+      <div class="group-card" id="progression-box"></div>
+    </section>
+
+    <!-- ============ 动作 ============ -->
+    <section class="page" id="page-library">
+      <div class="page-head">
+        <h1 class="large-title">动作</h1>
+        <p class="head-sub">23 个动作 · 配 B站教学视频</p>
+      </div>
+
+      <div class="filter-scroll" id="lib-filter"></div>
+      <div class="lib-list" id="lib-list"></div>
+    </section>
+
+    <!-- ============ 统计 ============ -->
+    <section class="page" id="page-stats">
+      <div class="page-head">
+        <h1 class="large-title">统计</h1>
+        <p class="head-sub">由训练记录自动生成</p>
+      </div>
+
+      <div class="section-title">体重趋势</div>
+      <div class="group-card">
+        <div class="chart" id="weight-chart"></div>
+        <div class="inline-row">
+          <input type="number" id="weight-input" step="0.1" min="30" max="200" inputmode="decimal" placeholder="体重 kg">
+          <button class="btn-ios" id="weight-add">记录</button>
+        </div>
+      </div>
+
+      <div class="section-title">训练打卡</div>
+      <div class="group-card">
+        <div class="chart" id="checkin-chart"></div>
+      </div>
+
+      <div class="section-title">肌肉热力图（近 7 天）</div>
+      <div class="group-card" id="muscle-map"></div>
+
+      <div class="section-title">负重进步</div>
+      <div class="group-card">
+        <select id="progress-exercise" class="ios-select"></select>
+        <div class="chart" id="progress-chart"></div>
+        <div id="progress-1rm" class="muted"></div>
+      </div>
+    </section>
+
+    <!-- ============ 我的 ============ -->
+    <section class="page" id="page-mine">
+      <div class="page-head">
+        <h1 class="large-title">我的</h1>
+        <p class="head-sub">训练历史、工具、饮食</p>
+      </div>
+
+      <div class="section-title">今日饮水</div>
+      <div class="group-card" id="water-card"></div>
+
+      <div class="section-title">工具</div>
+      <div class="group-card" id="mine-entries"></div>
+
+      <div class="section-title">训练历史</div>
+      <div class="group-card" id="log-history"></div>
+
+      <div class="section-title">每日营养目标</div>
+      <div class="group-card" id="nutrition-table"></div>
+
+      <div class="section-title">身体数据</div>
+      <div class="group-card" id="body-card"></div>
+
+      <div class="section-title">补剂用法</div>
+      <div class="group-card" id="supplement-list"></div>
+
+      <div class="tip-card">
+        <div class="tip-title">视频来源说明</div>
+        <div class="tip-line">全部视频为 B站官方播放器嵌入（视频仍存 B站，不下载不剪辑）。UP主：凯圣王 / ALEX健身频道 / 蔡梓强 / 运动科学 / 教练Mary。</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ 工具箱（全屏二级页） ============ -->
+  <div class="sheet" id="toolbox">
+    <header class="nav-bar">
+      <button class="nav-back" id="toolbox-back">‹ 我的</button>
+      <span class="nav-title">工具箱</span>
+      <span class="nav-right"></span>
+    </header>
+    <div class="sheet-body" id="toolbox-body">
+      <div class="tool-list" id="tool-list"></div>
+      <div class="tool-detail" id="tool-detail"></div>
+    </div>
+  </div>
+
+  <!-- ============ 底部 Tab Bar ============ -->
+  <nav class="tabbar" id="tabbar">
+    <button class="tab-item active" data-page="home"><span class="tab-ico">🏠</span><span class="tab-label">今天</span></button>
+    <button class="tab-item" data-page="plan"><span class="tab-ico">📋</span><span class="tab-label">计划</span></button>
+    <button class="tab-item" data-page="library"><span class="tab-ico">🎯</span><span class="tab-label">动作</span></button>
+    <button class="tab-item" data-page="stats"><span class="tab-ico">📊</span><span class="tab-label">统计</span></button>
+    <button class="tab-item" data-page="mine"><span class="tab-ico">👤</span><span class="tab-label">我的</span></button>
+  </nav>
+
+  <!-- ============ 动作详情弹窗 ============ -->
+  <div class="modal" id="modal">
+    <div class="modal-mask" id="modal-mask"></div>
+    <div class="modal-panel" id="modal-panel"></div>
+  </div>
+
+  <!-- ============ 训练会话（全屏） ============ -->
+  <div class="session" id="session">
+    <header class="session-head">
+      <button class="session-close" id="session-close">✕</button>
+      <div class="session-titlewrap">
+        <div class="session-title" id="session-title">训练</div>
+        <div class="session-sub" id="session-sub"></div>
+      </div>
+      <div class="session-progress" id="session-progress">0/0</div>
+    </header>
+    <div class="session-bar"><div class="session-bar-in" id="session-bar"></div></div>
+    <div class="session-body" id="session-body"></div>
+    <div class="session-foot">
+      <button class="btn-ios primary big" id="session-finish">完成训练</button>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Android
+*.apk.idsig
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+
+# Web
+.DS_Store
+node_modules/
